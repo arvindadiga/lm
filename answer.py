@@ -16,8 +16,16 @@ set of characters in a string. It should:
 - If no matches have been found, no output is generated
 """
 
+import six
+
 
 def text_search(text_to_search, subtext):
+    if not isinstance(text_to_search, six.string_types):
+        return []
+
+    if not isinstance(subtext, six.string_types):
+        return []
+
     matches = []
 
     i = 0
@@ -31,10 +39,12 @@ def text_search(text_to_search, subtext):
         # no match
         if lhs == ' ':
             j = 0
-            word_beginning = i + 1
             continue
 
         if lhs == rhs:
+            if j == 0:
+                word_beginning = i
+
             j = j + 1
 
             # found a match
